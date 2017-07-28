@@ -1,0 +1,73 @@
+﻿@model CapaEntidades.EntCredenciales
+@{
+    Layout = "";
+    ViewBag.Title = "Login";
+}
+<link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+<link href="~/Content/Site.css" rel="stylesheet" />
+
+<div class="container">
+    <div class="row">
+        <div class="col-sm-6 col-md-4 col-md-offset-4">
+
+            <h1 class="text-center login-title">Inicio de sesión</h1>
+
+            <div class="account-wall">
+                <img class="profile-img" src="https://lh5.googleusercontent.com/-b0-k99FZlyE/AAAAAAAAAAI/AAAAAAAAAAA/eu7opA4byxI/photo.jpg?sz=120" alt="">
+                @using (Html.BeginForm("Login", "Inicio", FormMethod.Post, new { @class = "form-signin", role = "form" }))
+                {        @Html.AntiForgeryToken()
+
+                    @*@Html.LabelFor(m => m.Correo, new { @class = "col-md-2 control-label" })*@
+                    @Html.TextBoxFor(m => m.Correo, new { @class = "form-control", @placeholder = "Correo Electronico", autofocus = "autofocus", required = "required" })
+                    @*<input type="text" name="correo" class="form-control" placeholder="Correo Electronico" required autofocus>*@
+                    @Html.ValidationMessageFor(m => m.Correo, "", new { @class = "text-danger" })
+
+                    @Html.PasswordFor(m => m.Contrasena, new { @class = "form-control", @placeholder = "Contraseña", required = "required"})
+                    @*<input type="password" name="clave" class="form-control" placeholder="Contraseña" required>*@
+                    @Html.ValidationMessageFor(m => m.Contrasena, "", new { @class = "text-danger" })
+
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    <button class="btn btn-lg btn-primary btn-block" type="submit">Aceptar</button>
+                }
+            </div>
+            <p>@Html.ActionLink("Registrar un nuevo usuario", "Register", new { Controller = "Inicio" }, new { @class = "text-center new-account" })</p>
+
+        </div>
+    </div>
+
+    @*@using (Html.BeginForm("Login", "Inicio", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+        {
+            @Html.AntiForgeryToken()
+            <h2 class="form-signin-heading">Inicio de sesión</h2>
+
+            <div class="form-group">
+                <div class="col-md-3"></div>
+                    @Html.LabelFor(m => m.Correo, new { @class = "col-md-2 control-label" })
+                    <div class="col-md-4">
+                        @Html.TextBoxFor(m => m.Correo, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.Correo, "", new { @class = "text-danger" })
+                    </div>
+                <div class="col-md-3"></div>
+                </div>
+
+            <div class="form-group">
+                <div class="col-md-3"></div>
+                @Html.LabelFor(m => m.Contrasena, new { @class = "col-md-2 control-label" })
+                <div class="col-md-4">
+                    @Html.PasswordFor(m => m.Contrasena, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.Contrasena, "", new { @class = "text-danger" })
+                </div>
+                <div class="col-md-3"></div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-offset-5 col-md-10">
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    <input type="submit" value="Aceptar" class="btn btn-primary" />
+                </div>
+            </div>
+
+            <p>@Html.ActionLink("Registrar un nuevo usuario", "Register")</p>
+        }*@
+
+</div> <!-- /container -->
