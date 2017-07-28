@@ -42,7 +42,6 @@ namespace RelojChecador.Controllers
             return View();
         }
 
-        // GET: Inicio
         [Route("Inicio")]
         public ActionResult Index()
         {
