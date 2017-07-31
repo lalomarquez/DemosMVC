@@ -5,12 +5,14 @@ using System.Web;
 using System.Web.Mvc;
 using CapaEntidades;
 using DAL;
+using RelojChecador.Models;
 
 namespace RelojChecador.Controllers
 {
     public class InicioController : Controller
     {
         private AccesoDatos dal = new AccesoDatos();
+        private dbContexUsuario db = new dbContexUsuario();
 
         [HttpGet]
         public ActionResult Login()
@@ -75,10 +77,96 @@ namespace RelojChecador.Controllers
             return View();
         }
 
+        [HttpPost]
+        public ActionResult AltaUsuarios(EntUsuario usuario)
+        {
+            //if (Session["Nombre"] != null)
+            //    return View();
+            //else
+            //    return RedirectToAction("Login");            
+            
+            try
+            {
+                string existeCorreo = string.Empty;
+                existeCorreo = dal.ValidarExisteUsuario(usuario);
+
+                if (ModelState.IsValid)
+                {
+                    if (existeCorreo == "true")
+                        ViewBag.existeCorreo = "Ya existe un usuario registrado con ese mismo correo electronico.";
+                    else
+                    {
+                        ViewBag.Message = dal.AltaNuevoUsuario(usuario);
+                        return RedirectToAction("ListaUsuarios");
+                    }
+                }
+                //ModelState.Clear();
+                //return View();
+            }
+            catch (Exception ex)
+            {
+                ViewBag.Error = ex.ToString();
+                //return View();
+            }
+            return View(usuario);
+        }
+
+        [HttpGet]
+        public ActionResult ActualizarUsuario(int id)
+        {                        
+            return View(dal.ObtenerTodosUsuarios().Find(u => u.IdUsuario == id));
+        }
+
+        [HttpPost]
+        public ActionResult ActualizarUsuario(int id, EntUsuario u)
+        {
+            string existeCorreo = string.Empty;
+            existeCorreo = dal.ValidarExisteUsuario(u);
+
+            try
+            {
+                if (existeCorreo == "true")
+                    ViewBag.existeCorreo = "Ya existe un usuario registrado con ese mismo correo electronico.";
+                else
+                {
+                    ViewBag.Message = dal.ActualizarUsuario(u);
+                    return RedirectToAction("ListaUsuarios");
+                }                
+            }
+            catch (Exception ex)
+            {
+                ViewBag.Error = ex.ToString();
+            }
+            return View();
+        }
+
+        [HttpGet]
+        public ActionResult Delete(int id)
+        {
+            try
+            {                
+                if (dal.EliminarUsuario(id))                
+                    ViewBag.AlertMsg = "Usuario Eliminado!!";
+                
+                return RedirectToAction("ListaUsuarios");
+            }
+            catch (Exception ex)
+            {
+                return RedirectToAction("ListaUsuarios");
+            }
+        }  
+
         [HttpGet]
         public ActionResult ListaUsuarios()
         {
-            return View();
+            //if (Session["Nombre"] != null)
+            //    return View();
+            //else
+            //    return RedirectToAction("Login");
+
+            var listUsuarios =  dal.ListaUsuarios();
+
+            return View(listUsuarios.ToList());
         }
 
         [HttpGet]
@@ -89,76 +177,16 @@ namespace RelojChecador.Controllers
             return RedirectToAction("Login");
         }
 
-        // GET: Inicio/Details/5
-        public ActionResult Details(int id)
-        {
-            return View();
-        }
+        //[HttpPost]
+        //public JsonResult AjaxMethod(EntUsuario usuario)
+        //{
+        //    string resultado = dal.ValidarExisteUsuario(usuario);
 
-        // GET: Inicio/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
+        //    if (resultado == "true")
+        //        ViewBag.existeCorreo = "Ya existe un usuario registrado con ese correo!";
 
-        // POST: Inicio/Create
-        [HttpPost]
-        public ActionResult Create(FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add insert logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // GET: Inicio/Edit/5
-        public ActionResult Edit(int id)
-        {
-            return View();
-        }
-
-        // POST: Inicio/Edit/5
-        [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add update logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // GET: Inicio/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: Inicio/Delete/5
-        [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add delete logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
-        }
+        //    return Json(resultado);
+        //}
+        
     }
 }

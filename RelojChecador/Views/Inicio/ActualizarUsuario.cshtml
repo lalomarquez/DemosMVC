@@ -1,29 +1,35 @@
 ﻿@model CapaEntidades.EntUsuario
+
 @{
-    ViewBag.Title = "AltaUsuarios";
+    ViewBag.Title = "ActualizarUsuario";
 }
 
-<h2>Alta de nuevos usuarios</h2>
+<h2>Actualizar usuario.</h2>
 
-@using (Html.BeginForm("AltaUsuarios", "Inicio", FormMethod.Post, new { @class = "", role = "form" }))
+
+@using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-
     <div class="form-horizontal">
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
+        <div>@Html.ActionLink("Regresar a la lista de usuarios", "ListaUsuarios")</div>
+        <hr />
+
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(m => m.IdUsuario)
         @if (ViewBag.existeCorreo != null)
         {
             <p class="text-danger">@ViewBag.existeCorreo</p>
         }
-        <div class="form-group">
+
+        <div class="form-group">            
             @Html.LabelFor(m => m.Nombre, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(m => m.Nombre, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(m => m.Nombre, "", new { @class = "text-danger" })
             </div>
         </div>
+
         <div class="form-group">
             @Html.LabelFor(m => m.APaterno, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
@@ -52,53 +58,11 @@
                 @Html.ValidationMessageFor(m => m.Contrasena, "", new { @class = "text-danger" })
             </div>
         </div>
+
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save" class="btn btn-primary" id="aceptar"/>
+                <input type="submit" value="Update" class="btn btn-primary" />
             </div>
         </div>
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10" style="color:green">
-                <strong>@ViewBag.Message</strong>
-            </div>
-        </div>
-
-        <div>
-            @Html.ActionLink("Regresar a la lista de usuarios", "ListaUsuarios")
-        </div>
-
     </div>
 }
-<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-<script type="text/javascript">
-    //$(document).on('ready', function () {
-    //    $(function () {
-    //        var correo = $("#Correo").val();
-    //        console.log(correo);
-    //        $("#aceptar").click(function () {
-    //            $.ajax({
-    //                url: "/Inicio/AjaxMethod",
-    //                dataType: "json",
-    //                type: "POST",
-    //                contentType: "application/json; charset=utf-8",
-    //                data: '{correo: "' + correo + '" }',
-    //                async: true,
-    //                processData: false,
-    //                cache: false,
-    //                success: function (data) {
-    //                    alert("Hello: " + data);
-    //                    console.log("data" + data);
-    //                    },
-    //                failure: function (data) {
-    //                        alert(data.responseText);
-    //                        console.log(data);
-    //                    },
-    //                error: function (data) {
-    //                        alert(data.responseText);
-    //                        console.log(data);
-    //                    }
-    //                });
-    //        });
-    //        });
-    //    });// end DOM
-</script>

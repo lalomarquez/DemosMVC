@@ -17,7 +17,7 @@ namespace Pruebas
 
             var dal = new AccesoDatos();
             List<EntUsuario> listaUsuarios = new List<EntUsuario>();
-            listaUsuarios = dal.ObtererUsuarios();
+            //listaUsuarios = dal.ObtererUsuarios();
 
             var v = listaUsuarios.Where(existe => existe.Correo.Equals(correo) && existe.Contrasena.Equals(pass)).FirstOrDefault();
 
@@ -34,6 +34,34 @@ namespace Pruebas
                 else
                     Console.WriteLine("usuario o contraseña no válidos.");
             }
+            /*
+             * ValidarExisteUsuario
+             */
+            EntUsuario usuario = new EntUsuario();
+            usuario.Correo = " test";
+            string resul = dal.ValidarExisteUsuario(usuario);
+            Console.WriteLine("ValidarExisteUsuario: " + resul);
+
+            /*
+             * update
+             */
+            EntUsuario up = new EntUsuario();
+            up.IdUsuario = 36;
+            up.Nombre = "Paco";
+            up.APaterno = "mar";
+            up.AMaterno = "espindoal";
+            up.Correo = " test4512";
+            up.Contrasena = "564231";
+            string resulUP = dal.ActualizarUsuario(up);
+            Console.WriteLine("update: " + resulUP);
+
+            /*
+             * update
+             */
+            int id = 50;
+            bool resultado = true;
+
+            resultado = dal.EliminarUsuario(id);
 
             Console.WriteLine("pulse cualquier tecla para terminar");
             Console.ReadKey();

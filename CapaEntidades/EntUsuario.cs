@@ -4,6 +4,7 @@ namespace CapaEntidades
 {
     public class EntUsuario
     {
+        [Key]
         public int IdUsuario { get; set; }
 
         //[Display(Name = "Usuario")]
