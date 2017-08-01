@@ -3,11 +3,9 @@
 namespace CapaEntidades
 {
     public class EntUsuario
-    {
-        [Key]
+    {        
         public int IdUsuario { get; set; }
-
-        //[Display(Name = "Usuario")]
+     
         [Required(ErrorMessage = "El nombre es requerido.")]
         public string Nombre { get; set; }
 
@@ -20,8 +18,8 @@ namespace CapaEntidades
         public string AMaterno { get; set; }
         
         [Required(ErrorMessage = "El correo es requerido.")]
-        //[RegularExpression(@"^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$",
-        //ErrorMessage = "El correo electronico no es valido.")]
+        [RegularExpression(@"^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$",
+        ErrorMessage = "El correo electronico no es valido.")]
         public string Correo { get; set; }
 
         [Display(Name = "Contraseña")]

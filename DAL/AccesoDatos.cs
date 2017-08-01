@@ -21,6 +21,7 @@ namespace DAL
             public static string Connection = ConfigurationManager.ConnectionStrings["SqlConn"].ConnectionString;
         }
 
+        #region Usuario
         public List<EntCredenciales> ObtenerCredenciales()
         {
             try
@@ -45,7 +46,7 @@ namespace DAL
                 using (var connection = ConnectionFactory())
                 {
                     connection.Open();
-                    IList<EntLista> entLista = SqlMapper.Query<EntLista>(connection, "sp_ListaUsuarios").ToList();
+                    IList<EntLista> entLista = SqlMapper.Query<EntLista>(connection, "sp_ObtenerTodosUsuarios").ToList();
                     return entLista.ToList();
                 }
             }
@@ -62,7 +63,7 @@ namespace DAL
                 using (var connection = ConnectionFactory())
                 {
                     connection.Open();
-                    IList<EntUsuario> getAll = SqlMapper.Query<EntUsuario>(connection, "sp_ListaUsuarios").ToList();
+                    IList<EntUsuario> getAll = SqlMapper.Query<EntUsuario>(connection, "sp_ObtenerTodosUsuarios").ToList();
                     return getAll.ToList();
                 }
             }
@@ -156,20 +157,18 @@ namespace DAL
             }
             return resultado;
         }
+        #endregion
 
-
-
-
-
-        public List<dynamic> ObtererCredenciales_old()
+        #region Registro Entrada/Salida
+        public List<EntRegEntradaSalida> ObtenerTodoRegistrosEntradaSalida()
         {
             try
             {
                 using (var connection = ConnectionFactory())
                 {
                     connection.Open();
-                    var credenciales = SqlMapper.Query(connection, "sp_CredencialesUsuario").ToList();
-                    return credenciales;
+                    IList<EntRegEntradaSalida> getAll = SqlMapper.Query<EntRegEntradaSalida>(connection, "sp_ObtenerTodoRegistrosES").ToList();
+                    return getAll.ToList();
                 }
             }
             catch (Exception ex)
@@ -177,5 +176,117 @@ namespace DAL
                 throw;
             }
         }
+
+        public List<EntReporteAsistencia> ObtenerRegistroAsistencia()
+        {
+            try
+            {
+                using (var connection = ConnectionFactory())
+                {
+                    connection.Open();
+                    IList<EntReporteAsistencia> getAll = SqlMapper.Query<EntReporteAsistencia>(connection, "sp_ObtenerRegistroAsistencia").ToList();
+                    return getAll.ToList();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
+
+        public string RegistrarEntrada(EntRegistrarEntrada entrada)
+        {
+            string resultado = string.Empty;
+            try
+            {
+                DynamicParameters param = new DynamicParameters();
+                param.Add("@TipoRegistro", entrada.TipoRegistro);
+                param.Add("@IdUsuario", entrada.IdUsuario);
+
+                using (var connection = ConnectionFactory())
+                {
+                    connection.Open();
+                    connection.Execute("sp_RegistrarEntrada", param, commandType: CommandType.StoredProcedure);
+                    resultado = "Entrada Registrada";
+                }
+            }
+            catch (Exception ex)
+            {
+                resultado = ex.ToString();
+            }
+            return resultado;
+        }
+
+        //public string RegistroEntrada(EntRegistrarEntrada entrada)
+        //{
+        //    string resultado = string.Empty;
+        //    try
+        //    {
+        //        DynamicParameters param = new DynamicParameters();
+        //        param.Add("@TipoRegistro", entrada.TipoRegistro);
+        //        param.Add("@IdUsuario", entrada.IdUsuario);
+        //        param.Add("@Resultado", dbType: DbType.AnsiString, direction: ParameterDirection.Output, size: 100);
+
+        //        using (var connection = ConnectionFactory())
+        //        {
+        //            connection.Open();
+        //            connection.Execute("sp_RegistrarEntradaSalida", param, commandType: CommandType.StoredProcedure);
+        //            resultado = param.Get<string>("@Resultado");
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        resultado = ex.ToString();
+        //    }
+        //    return resultado;
+        //}
+
+        public string VerificarExisteUsuario(EntRegistrarEntrada entrada)
+        {
+            string resultado = string.Empty;
+            try
+            {
+                DynamicParameters param = new DynamicParameters();
+                param.Add("@IdUsuario", entrada.IdUsuario);
+                param.Add("@Resultado", dbType: DbType.AnsiString, direction: ParameterDirection.Output, size: 100);
+
+                using (var connection = ConnectionFactory())
+                {
+                    connection.Open();
+                    connection.Execute("sp_VerificarExisteUsuario", param, commandType: CommandType.StoredProcedure);
+                    resultado = param.Get<string>("@Resultado");
+                }
+            }
+            catch (Exception ex)
+            {
+                resultado = ex.ToString();
+            }
+            return resultado;
+        }
+
+        public string VerificarRegistroEntrada(EntRegistrarEntrada entrada)
+        {
+            string resultado = string.Empty;
+            try
+            {
+                DynamicParameters param = new DynamicParameters();
+                param.Add("@TipoRegistro", entrada.TipoRegistro);
+                param.Add("@IdUsuario", entrada.IdUsuario);
+                param.Add("@Resultado", dbType: DbType.AnsiString, direction: ParameterDirection.Output, size: 100);
+
+                using (var connection = ConnectionFactory())
+                {
+                    connection.Open();
+                    connection.Execute("sp_VerificarRegistroEntrada", param, commandType: CommandType.StoredProcedure);
+                    resultado = param.Get<string>("@Resultado");
+                }
+            }
+            catch (Exception ex)
+            {
+                resultado = ex.ToString();
+            }
+            return resultado;
+        }
+        #endregion     
     }
 }

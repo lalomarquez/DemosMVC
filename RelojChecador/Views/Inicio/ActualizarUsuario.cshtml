@@ -6,13 +6,13 @@
 
 <h2>Actualizar usuario.</h2>
 
-
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
     <div class="form-horizontal">
 
-        <div>@Html.ActionLink("Regresar a la lista de usuarios", "ListaUsuarios")</div>
+        <div>@Html.ActionLink("Regresar a la lista de usuarios.", "ListaUsuarios")</div>
+
         <hr />
 
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
@@ -64,5 +64,6 @@
                 <input type="submit" value="Update" class="btn btn-primary" />
             </div>
         </div>
+
     </div>
 }

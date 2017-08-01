@@ -1,7 +1,27 @@
-﻿
+﻿@model IEnumerable<CapaEntidades.EntReporteAsistencia>
+
 @{
     ViewBag.Title = "ReporteAsistencia";
 }
 
-<h2>ReporteAsistencia</h2>
+<h2>Reporte de asistencias.</h2>
+<p>@Html.ActionLink("Regresar al Inicio.", "Index")</p>
 
+<table class="table table-hover">
+    <tr>
+        <th>@Html.DisplayNameFor(m => m.IdUsuario)</th>
+        <th>@Html.DisplayNameFor(m => m.FullName)</th>
+        <th>@Html.DisplayNameFor(m => m.FechaHora)</th>
+        <th>@Html.DisplayNameFor(m => m.TipoRegistro)</th>        
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@Html.DisplayFor(modelItem => item.IdUsuario)</td>
+            <td>@Html.DisplayFor(modelItem => item.FullName)</td>            
+            <td>@Html.DisplayFor(modelItem => item.FechaHora)</td>
+            <td>@Html.DisplayFor(modelItem => item.TipoRegistro)</td>
+        </tr>
+    }
+</table>

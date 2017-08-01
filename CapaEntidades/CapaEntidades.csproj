@@ -44,6 +44,9 @@
   <ItemGroup>
     <Compile Include="EntCredenciales.cs" />
     <Compile Include="EntLista.cs" />
+    <Compile Include="EntRegEntradaSalida.cs" />
+    <Compile Include="EntRegistrarEntrada.cs" />
+    <Compile Include="EntReporteAsistencia.cs" />
     <Compile Include="EntUsuario.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
